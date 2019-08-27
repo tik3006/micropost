@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   #ルーティングの個別設定
   get 'signup', to: 'users#new'
   resources :users, only: [:index, :show, :new, :create]
+  
+  resources :microposts, only: [:create, :destroy]
 end

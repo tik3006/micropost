@@ -5,7 +5,7 @@ module SessionsHelper
     @current_user ||= User.find_by(id: session[:user_id])
   end
 
-
+  #ログインしていたらTrueを返ししていなかったらFalseを返す
   def logged_in?
     !!current_user
   end
