@@ -1,0 +1,15 @@
+
+[1mFrom:[0m /home/ec2-user/environment/microposts/app/views/toppages/index.html.erb @ line 16 ActionView::CompiledTemplates#_app_views_toppages_index_html_erb___87237774504349558_70168998572140:
+
+    [1;34m11[0m:     <div class="col-sm-8">
+    [1;34m12[0m:       <%= render 'microposts/microposts', microposts: @microposts %>
+    [1;34m13[0m:     </div>
+    [1;34m14[0m:   </div>
+    [1;34m15[0m: <% else %>
+ => [1;34m16[0m:   <div class="center jumbotron">
+    [1;34m17[0m:     <div class="text-center">
+    [1;34m18[0m:       <h1>Welcome to the Microposts</h1>
+    [1;34m19[0m:       <%= link_to 'Sign up now!', signup_path, class: 'btn btn-lg btn-primary' %>
+    [1;34m20[0m:     </div>
+    [1;34m21[0m:   </div>
+

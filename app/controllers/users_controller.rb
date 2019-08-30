@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :require_user_logged_in, only: [:index, :show]
+  before_action :require_user_logged_in, only: [:index, :show, :folowings, :followers]
   
   #idの降順にユーザを取得し25件で表示する
   def index
@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   #ユーザー名とGravatarの表示
   def show
     @user = User.find(params[:id])
-     @microposts = @user.microposts.order(id: :desc).page(params[:page])
+    @microposts = @user.microposts.order(id: :desc).page(params[:page])
     counts(@user)
   end
 
@@ -33,6 +33,19 @@ class UsersController < ApplicationController
     end
   end
 end
+
+  def followings
+    @user = User.find(params[:id])
+    @followings = @user.followings.page(params[:page])
+    counts(@user)
+  end
+  
+  def followers
+    @user = User.find(params[:id])
+    @followers = @user.followings.page(params[:page])
+    counts(@user)
+  end
+  
   private
   
   def user_params
