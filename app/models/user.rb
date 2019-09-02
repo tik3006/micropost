@@ -4,18 +4,19 @@ class User < ApplicationRecord
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i },
                     uniqueness: { case_sensitive: false }
+  
   has_secure_password
   
-  #folliw,followers
+  #follow,followers
   has_many :microposts
   has_many :relationships
   has_many :followings, through: :relationships, source: :follow
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :user
   
+  
   #favorites
   has_many :favorites
-  has_many :reverses_of_favorites, class_name: 'Favorite', foreign_key: 'micropost_id'
   has_many :favposts, through: :favorites, source: :micropost
 
   
@@ -43,7 +44,7 @@ class User < ApplicationRecord
   
   #お気に入りの追加
   def like(micropost)
-    favorites.find_or_create_byZ(micropost_id: micropost.id)
+    self.favorites.find_or_create_by(micropost_id: micropost.id)
   end
     
   #お気に入りの削除
@@ -51,4 +52,9 @@ class User < ApplicationRecord
    favorite = self.favotrites.find_by(micropost_id: micropost.id)
    favorite.destroy if favorite
   end 
+  
+  #お気に入りの判定
+  def liked?(micropost)
+    self.favposts.include?(micropost)
+  end
 end

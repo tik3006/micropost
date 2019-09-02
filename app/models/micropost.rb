@@ -4,7 +4,7 @@ class Micropost < ApplicationRecord
   validates :content, presence: true, length: { maximum: 255 }
   
   #お気に入り機能中間テーブル
-  has_many :favorites, foreign_key: 'micropost_id'
-  has_many :users, through: :favorites
+  has_many :favorites
+  has_many :like_users, through: :favorites, source: :user
 
 end
