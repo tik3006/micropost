@@ -6,11 +6,18 @@ class User < ApplicationRecord
                     uniqueness: { case_sensitive: false }
   has_secure_password
   
+  #folliw,followers
   has_many :microposts
   has_many :relationships
   has_many :followings, through: :relationships, source: :follow
   has_many :reverses_of_relationship, class_name: 'Relationship', foreign_key: 'follow_id'
   has_many :followers, through: :reverses_of_relationship, source: :user
+  
+  #favorites
+  has_many :favorites
+  has_many :reverses_of_favorites, class_name: 'Favorite', foreign_key: 'micropost_id'
+  has_many :favposts, through: :favorites, source: :micropost
+
   
   def follow(other_user)
     #フォローしようとしているユーザーが自分ではないかを確かめる
@@ -33,4 +40,15 @@ class User < ApplicationRecord
   def feed_microposts
     Micropost.where(user_id: self.following_ids + [self.id])
   end
+  
+  #お気に入りの追加
+  def like(micropost)
+    favorites.find_or_create_byZ(micropost_id: micropost.id)
+  end
+    
+  #お気に入りの削除
+  def unlike(micropost)
+   favorite = self.favotrites.find_by(micropost_id: micropost.id)
+   favorite.destroy if favorite
+  end 
 end
