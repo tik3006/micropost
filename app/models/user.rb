@@ -16,7 +16,7 @@ class User < ApplicationRecord
   
   
   #favorites
-  has_many :favorites
+  has_many :favorites, dependent: :destroy
   has_many :favposts, through: :favorites, source: :micropost
 
   
@@ -49,7 +49,7 @@ class User < ApplicationRecord
     
   #お気に入りの削除
   def unlike(micropost)
-   favorite = self.favotrites.find_by(micropost_id: micropost.id)
+   favorite = self.favorites.find_by(micropost_id: micropost.id)
    favorite.destroy if favorite
   end 
   
