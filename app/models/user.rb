@@ -17,9 +17,9 @@ class User < ApplicationRecord
   
   #favorites
   has_many :favorites, dependent: :destroy
-  has_many :favposts, through: :favorites, source: :micropost
+  has_many :favpost, through: :favorites, source: :micropost
 
-  
+ 
   def follow(other_user)
     #フォローしようとしているユーザーが自分ではないかを確かめる
     unless self == other_user
@@ -44,17 +44,18 @@ class User < ApplicationRecord
   
   #お気に入りの追加
   def like(micropost)
-    self.favorites.find_or_create_by(micropost_id: micropost.id)
+    favorites.find_or_create_by(micropost_id: micropost.id)
   end
-    
+  
   #お気に入りの削除
   def unlike(micropost)
-   favorite = self.favorites.find_by(micropost_id: micropost.id)
+   favorite = favorites.find_by(micropost_id: micropost.id)
    favorite.destroy if favorite
   end 
   
   #お気に入りの判定
   def liked?(micropost)
-    self.favposts.include?(micropost)
+    favpost.include?(micropost)
   end
+  
 end
